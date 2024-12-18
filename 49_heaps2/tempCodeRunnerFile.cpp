@@ -1,0 +1,1 @@
+inorder(root->right, arr);
