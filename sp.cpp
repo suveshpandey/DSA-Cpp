@@ -210,5 +210,12 @@ void printSubarray(vector<int> nums, int s, int e){
     printSubarray(nums, s, e+1);
 }
 int main() {
-    string s = "abcde";
+    vector<int> nums = {5, 1, 6};
+    int sum = 12;
+    int result = 0;
+
+    for(int i = 0; i<3; i++){
+        sum ^= nums[i];
+    }
+    cout<<sum;
 }

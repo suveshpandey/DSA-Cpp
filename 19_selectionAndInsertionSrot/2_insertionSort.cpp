@@ -30,7 +30,7 @@ int main(){
             else{
                 swap(arr[j], arr[j-1]);
             }
-        j--;
+            j--;
 
         }
     }

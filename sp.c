@@ -1,36 +1,94 @@
 #include<stdio.h>
-#include<math.h>
+
+//iterative method
+int calFact(int n){
+    if(n == 0) return 1;
+    int fact = 1;
+    for(int i = n; i>0; i--){
+        fact *= i;
+    }
+    return fact;
+}
+
+//recursive method
+int calFactRec(int n){
+    if(n == 0 || n == 1) return 1;
+    return n * calFactRec(n-1);
+}
+
+int mx(int a, int b){
+    if(a>b) return a;
+    else return b;
+}
+int mn(int a, int b){
+    if(a<b) return a;
+    else return b;
+}
+int calGCD(int a, int b){
+    if(a == 0) return b;
+    if(b == 0) return a;
+    if(a == b) return a;
+    if(a > b) return calGCD(a-b, b);
+    return calGCD(a, b-a);
+}
+int calGCD2(int a, int b){
+    int rem;
+    while(b!=0){
+        rem = a%b;
+        a = b;
+        b = rem;
+    }
+    return a;
+}
+
+void calSum(int A[2][2], int B[2][2]){
+    int ans[2][2];
+    for(int i = 0; i<2; i++){
+        for(int j = 0; j<2; j++){
+            ans[i][j] = A[i][j] + B[i][j];
+        }
+    }
+    for(int i = 0; i<2; i++){
+        for(int j = 0; j<2; j++){
+            printf("%d, ", ans[i][j]);
+        }
+        printf("\n");
+    }
+
+}
+void calProd(int A[2][2], int B[2][2]){
+    int ans[2][2];
+    for(int i = 0; i<2; i++){
+        for(int j = 0; j<2; j++){
+            ans[i][j] = 0;
+            for(int k = 0; k<2; k++){
+                ans[i][j] += A[i][k] * B[k][j];
+            }
+        }
+    }
+    for(int i = 0; i<2; i++){
+        for(int j = 0; j<2; j++){
+            printf("%d, ", ans[i][j]);
+        }
+        printf("\n");
+    }
+}
 int main(){
-    float a, b, c;
-    printf("Enter three coefficients: ");
-    scanf("%f %f %f", &a, &b, &c);
-
-    float discriminant = b*b - 4*a*c;
-
-    if(discriminant > 0){
-        //real and different roots
-        float r1 = (-b + sqrt(discriminant))/(2*a);
-        float r2 = (-b - sqrt(discriminant))/(2*a);
-
-        printf("Real and different roots.\n");
-        printf("root1 = %.2f\n", r1);
-        printf("root2 = %.2f\n", r2);
+    int A[2][2];
+    printf("Enter the A matrix elements: ");
+    for(int i = 0; i<2; i++){
+        for(int j = 0; j<2; j++){
+            scanf("%d", &A[i][j]);
+        }
     }
-    else if(discriminant == 0){
-        //real and equal roots
-        float r1, r2;
-        printf("Real and equal roots.\n");
-        r1 = r2 = -b/(2*a);
-        printf("root1 = %.2f\n", r1);
-        printf("root2 = %.2f\n", r2);
+    int B[2][2];
+    printf("Enter the B matrix elements: ");
+    for(int i = 0; i<2; i++){
+        for(int j = 0; j<2; j++){
+            scanf("%d", &B[i][j]);
+        }
     }
-    else{
-        //complex roots
-        float realPart = -b/(2*a);
-        float imgPart = sqrt(-discriminant)/(2*a);
-        printf("complex roots.\n");
-        printf("root1 = %.2f + %.2fi\n",realPart, imgPart);
-        printf("root1 = %.2f - %.2fi\n", realPart, imgPart);
-    }
-
+    calSum(A, B);
+    printf("\n");
+    calProd(A, B);
 }

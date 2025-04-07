@@ -77,7 +77,7 @@ void createAccount(Account user){
     }
     else{
         outfile<<"\t"<<user.getAccountNo()<<" : "<<user.getAccountPassword()<<" : "<<user.getName()<<" : "<<user.getBalance()<<endl;
-        cout<<"\tAccount Created Successfully.";
+        cout<<endl<<"\tAccount Created Successfully.";
     }
     outfile.close();
 
@@ -122,15 +122,15 @@ void addBalance(){
                 userBal = newBal;
 
                 outfile<<"\t"<<accNo<<" : "<<userPass<<" : "<<userName<<" : "<<userBal<<endl;
-                cout<<"\tAmount Added Successfully."<<endl;
-                cout<<"\tNew Balance: "<<userBal<<endl;
+                cout<<endl<<"\tAmount Added Successfully."<<endl;
+                cout<<"\tUpdated Balance: "<<userBal<<endl;
             }
             else{
                 outfile<<line<<endl;
             }
         }
         if(!found){
-            cout<<"\tAccount Not Found."<<endl;
+            cout<<endl<<"\tAccount Not Found."<<endl;
         }
         outfile.close();
         infile.close();
@@ -181,12 +181,14 @@ void withdrawCash(){
                     int newBal = userBal - amount;
                     userBal = newBal;
                     outfile<<"\t"<<accNo<<" : "<<userPass<<" : "<<userName<<" : "<<userBal<<endl;
-                    cout<<"\tAmount Debited Successfully."<<endl;
+                    cout<<endl<<"\tAmount Debited Successfully."<<endl;
                     cout<<"\tRemaining Balance: "<<userBal<<endl;
+                    return;
                 }
                 else{
-                    cout<<"\tInsufficient Balance."<<endl;
+                    cout<<endl<<"\tInsufficient Balance."<<endl;
                     outfile<<"\t"<<accNo<<" : "<<userPass<<" : "<<userName<<" : "<<userBal<<endl;
+                    return;
                 }
             }
             else{
@@ -194,7 +196,7 @@ void withdrawCash(){
             }
         }
         if(!found){
-            cout<<"\tInvalid AccountNo or Password."<<endl;
+            cout<<endl<<"\tInvalid AccountNo or Password."<<endl;
         }
         outfile.close();
         infile.close();
@@ -235,15 +237,17 @@ void getMyInfo(){
 
             if(accountNo == accNo && password == userPass){
                 found = true;
-                cout<<"\tYour current baalance is = "<<userBal<<endl;
+                cout<<endl<<"\tYour current baalance is = "<<userBal<<endl;
                 return;
             }
-            else{
-                cout<<"\tInvalid AccountNo or Password."<<endl;
+            if(found == false){
+                cout<<endl<<"\tInvalid AccountNo or Password."<<endl;
+                return;
             }
         }
         if(!found){
-            cout<<"\tAccount Not Found."<<endl;
+            cout<<endl<<"\tAccount Not Found."<<endl;
+            return;
         }
     }
 
@@ -291,12 +295,12 @@ void changePass(){
                 userPass = newPass;
             }
             outfile<<"\t"<<accNo<<" : "<<userPass<<" : "<<userName<<" : "<<userBal<<endl;
-            if(!found){
-                cout<<"\tInvalid AccountNo or Password."<<endl;
-            }
-            else{
-                cout<<"\tPassword Changed Successfully."<<endl;
-            }
+        }
+        if(!found){
+            cout<<endl<<"\tInvalid AccountNo or Password."<<endl;
+        }
+        else{
+            cout<<endl<<"\tPassword Changed Successfully."<<endl;
         }
     }
 
@@ -347,11 +351,61 @@ void changeUsername(){
                 userName = newUsername;
             }
             outfile<<"\t"<<accNo<<" : "<<userPass<<" : "<<userName<<" : "<<userBal<<endl;
-            if(!found){
-                cout<<"\tInvalid AccountNo or Password."<<endl;
+        }
+        if(!found){
+            cout<<endl<<"\tInvalid AccountNo or Password."<<endl;
+        }
+        else{
+            cout<<endl<<"\tUsername Changed Successfully."<<endl;
+        }
+    }
+
+    infile.close();
+    outfile.close();
+    remove("Account.txt");
+    rename("AccountTemp.txt", "Account.txt");
+    Sleep(3000);
+}
+void deleteAccount(){
+    system("cls");
+
+    string accountNo;
+    cout<<"\tEnter your account no: ";
+    cin>>accountNo;
+
+    string password;
+    cout<<"\tEnter your password: ";
+    cin>>password;
+
+    ifstream infile("Account.txt");
+    ofstream outfile("AccountTemp.txt");
+
+    if(!infile || !outfile){
+        cout<<"Error: File Not Opended."<<endl;
+    }
+    else{
+        string line;
+        bool found = false;
+
+        while(getline(infile, line)){
+            stringstream ss;
+            ss<<line;
+
+            string accNo, userPass, userName;
+            int userBal;
+            char delimiter;
+
+            ss>>accNo>>delimiter>>userPass>>delimiter>>userName>>delimiter>>userBal;
+
+            if(accountNo == accNo && password == userPass){
+                found = true;
+                cout<<endl<<"\tAccount Deleted Successfully." << endl;
             }
             else{
-                cout<<"\tUsername Changed Successfully."<<endl;
+                outfile<<"\t"<<accNo<<" : "<<userPass<<" : "<<userName<<" : "<<userBal<<endl;
+            }
+            if(!found){
+                cout<<endl<<"\tInvalid AccountNo or Password."<<endl;
             }
         }
     }
@@ -362,6 +416,7 @@ void changeUsername(){
     rename("AccountTemp.txt", "Account.txt");
     Sleep(3000);
 }
+
 
 int main(){
 
@@ -380,7 +435,8 @@ int main(){
         cout<<"\tEnter '4' to Check Your Amount."<<endl;
         cout<<"\tEnter '5' to Change Your Password."<<endl;
         cout<<"\tEnter '6' to Change Your Username."<<endl;
-        cout<<"\tEnter '7' to Exit."<<endl<<endl;
+        cout<<"\tEnter '7' to Delete Your Account."<<endl;
+        cout<<"\tEnter '8' to Exit."<<endl<<endl;
         cout<<"\tEnter Your Choice: ";
 
         cin>>val;
@@ -404,6 +460,9 @@ int main(){
             changeUsername();
         }
         else if(val == 7){
+            deleteAccount();
+        }
+        else if(val == 8){
             system("cls");
             exit = true;
             cout<<"\tThankyou For Using Our Service."<<endl;

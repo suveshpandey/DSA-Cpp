@@ -1,0 +1,2 @@
+Hey, i am learning file handling.
+Writing into this file using ofstream
