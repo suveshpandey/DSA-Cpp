@@ -13,7 +13,7 @@ void strSubSets(string s, int idx, string res, bool flag){
         return;
     }
     if(s[idx+1] and s[idx] == s[idx+1]){
-        if(flag == true) strSubSets(s, idx+1, res+s[idx], true);
+        if(flag == true) strSubSets(s, idx+1, res[idx], true);
         strSubSets(s, idx+1, res,false);
     }
     else{
@@ -210,12 +210,5 @@ void printSubarray(vector<int> nums, int s, int e){
     printSubarray(nums, s, e+1);
 }
 int main() {
-    vector<int> nums = {5, 1, 6};
-    int sum = 12;
-    int result = 0;
-
-    for(int i = 0; i<3; i++){
-        sum ^= nums[i];
-    }
-    cout<<sum;
+    cout<<"samosa";
 }
